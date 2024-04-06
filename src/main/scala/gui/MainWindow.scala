@@ -17,7 +17,6 @@ class MainWindow extends Runnable{
       model.getCase(i).subscribe(gridView.getCaseAtIndex(i))
       gridView.getCaseAtIndex(i).addActionListener(gridController)
     }
-    val gridViewController = new GridController(model)
     val controllerMenu = new ControlerMenu(model)
     val resetButton = new JButton("Reset")
     val currentPlayerView = new CurrentPlayerView(model.currentPlayer)
