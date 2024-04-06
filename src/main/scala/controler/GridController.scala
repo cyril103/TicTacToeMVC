@@ -1,32 +1,19 @@
-package gui
+package controler
 
- import model.TicTacToeModel
+import model.TicTacToeModel
 
- import java.awt.GridLayout
- import java.awt.event.{ActionEvent, ActionListener}
- import javax.swing.{JOptionPane, JPanel}
+import java.awt.event.{ActionEvent, ActionListener}
+import javax.swing.JOptionPane
 
-class GridViewController(model : TicTacToeModel) extends JPanel with ActionListener  {
-  setLayout(new GridLayout(3,3))
-
-  private val cases: Array[CaseView] = Array.tabulate(9)(i => new CaseView(i))
-  (0 to 8).foreach(i => model.getCase(i).subscribe(cases(i)))
-
-  cases.foreach{b =>
-    b.setActionCommand(b.getName)
-    b.addActionListener(this)
-    add(b)
-  }
-
+class GridController(model : TicTacToeModel) extends ActionListener  {
   private def handleGameEnd(result : String) : Unit = {
     val message = result match {
       case player@("X" | "O") => s"$player gagne"
       case "." => "match nul"
       case _ => throw  new IllegalArgumentException("must be X O or .")
     }
-    JOptionPane.showMessageDialog(this,message,"resultat",JOptionPane.INFORMATION_MESSAGE)
+    JOptionPane.showMessageDialog(null,message,"resultat",JOptionPane.INFORMATION_MESSAGE)
     model.init()
-
   }
 
   override def actionPerformed(e: ActionEvent): Unit = {
