@@ -28,26 +28,18 @@ class TicTacToeModel extends Publisher {
     turn = (turn+1)%2
     publish()
   }
-  private def isGridFull  = !grid.exists(c => c.getSymbol == "")
 
   def getStatus: String ={
+    val isGridFull  = !grid.exists(c => c.getSymbol == "")
+    val gridSymbol = grid.map(_.getSymbol).sliding(3,3).toArray
+    val isSameSymbolHorizontal = gridSymbol.map(_.count(_ == currentPlayer)).contains(3)
+    val isSameSymbolVertical = gridSymbol.transpose.map(_.count(_ == currentPlayer)).contains(3)
+    val isSameSymbolDiagonal1 = currentPlayer == gridSymbol(0)(0) && currentPlayer == gridSymbol(1)(1) && currentPlayer == gridSymbol(2)(2)
+    val isSameSymbolDiagonal2 = currentPlayer == gridSymbol(0)(2) && currentPlayer == gridSymbol(1)(1) && currentPlayer == gridSymbol(2)(0)
+    val hasAWinner = isSameSymbolHorizontal || isSameSymbolVertical || isSameSymbolDiagonal1 || isSameSymbolDiagonal2
 
-    val str = grid.map(_.getSymbol).sliding(3,3).toArray
-    val hor = str.map(_.count(_ == currentPlayer)).contains(3)
-    val ver = str.transpose.map(_.count(_ == currentPlayer)).contains(3)
-    val diag1 = currentPlayer == str(0)(0) && currentPlayer == str(1)(1) && currentPlayer == str(2)(2)
-    val diag2 = currentPlayer == str(0)(2) && currentPlayer == str(1)(1) && currentPlayer == str(2)(0)
-
-    (hor || ver || diag1 || diag2 ,isGridFull, currentPlayer) match {
-      case (true, _ , curr) => curr
-      case (false, true, _) => "."
-      case _ => "_"
-    }
-
+    if(hasAWinner) currentPlayer
+    else if(!hasAWinner && isGridFull) "."
+    else "_"
   }
-
-
-
-
-
 }
