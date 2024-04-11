@@ -19,7 +19,7 @@ class MainWindow extends Runnable:
     }
     val controllerMenu = new ControlerMenu(model)
     val resetButton = new JButton("Reset")
-    val currentPlayerView = new CurrentPlayerView(model.currentPlayer)
+    val currentPlayerView = new CurrentPlayerView(model.currentPlayer.symbol)
     model.subscribe(currentPlayerView)
     resetButton.setActionCommand("reset")
     resetButton.addActionListener(controllerMenu)

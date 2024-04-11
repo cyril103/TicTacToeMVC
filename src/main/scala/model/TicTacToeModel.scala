@@ -3,10 +3,10 @@ package model
 class TicTacToeModel extends Publisher :
   private var turn = 0
 
-  private val players: Array[String] = Array("X","O")
+  private val players: Array[Player] = Array(HumanPlayer("X"),HumanPlayer("O"))
   private val grid: Array[CaseModel] = Array.tabulate(9)(i => new CaseModel(i))
 
-  def currentPlayer: String =
+  def currentPlayer: Player =
     players(turn)
 
   def init() : Unit =
@@ -17,7 +17,7 @@ class TicTacToeModel extends Publisher :
 
   def checkAndPut(numCase: Int): Boolean =
     if grid(numCase).getSymbol == ""  then 
-      grid(numCase).setSymbol(currentPlayer)
+      grid(numCase).setSymbol(currentPlayer.symbol)
       true
       else false
 
@@ -28,12 +28,12 @@ class TicTacToeModel extends Publisher :
   def getStatus: String =    
     val isGridFull  = !grid.exists(c => c.getSymbol == "")
     val gridSymbol = grid.map(_.getSymbol).sliding(3,3).toArray
-    val isSameSymbolHorizontal = gridSymbol.map(_.count(_ == currentPlayer)).contains(3)
-    val isSameSymbolVertical = gridSymbol.transpose.map(_.count(_ == currentPlayer)).contains(3)
-    val isSameSymbolDiagonal1 = currentPlayer == gridSymbol(0)(0) && currentPlayer == gridSymbol(1)(1) && currentPlayer == gridSymbol(2)(2)
-    val isSameSymbolDiagonal2 = currentPlayer == gridSymbol(0)(2) && currentPlayer == gridSymbol(1)(1) && currentPlayer == gridSymbol(2)(0)
+    val isSameSymbolHorizontal = gridSymbol.map(_.count(_ == currentPlayer.symbol)).contains(3)
+    val isSameSymbolVertical = gridSymbol.transpose.map(_.count(_ == currentPlayer.symbol)).contains(3)
+    val isSameSymbolDiagonal1 = currentPlayer.symbol == gridSymbol(0)(0) && currentPlayer.symbol == gridSymbol(1)(1) && currentPlayer.symbol == gridSymbol(2)(2)
+    val isSameSymbolDiagonal2 = currentPlayer.symbol == gridSymbol(0)(2) && currentPlayer.symbol == gridSymbol(1)(1) && currentPlayer.symbol == gridSymbol(2)(0)
     val hasAWinner = isSameSymbolHorizontal || isSameSymbolVertical || isSameSymbolDiagonal1 || isSameSymbolDiagonal2
-    if hasAWinner then currentPlayer
+    if hasAWinner then currentPlayer.symbol
     else if !hasAWinner && isGridFull then  "."
     else "_"    
   end getStatus  
