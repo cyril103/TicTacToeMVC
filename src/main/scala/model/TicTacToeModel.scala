@@ -1,5 +1,7 @@
 package model
 
+import model.GameStatus.*
+
 class TicTacToeModel extends Publisher :
   private var turn = 0
 
@@ -16,7 +18,7 @@ class TicTacToeModel extends Publisher :
   def getCase(index : Int): CaseModel = grid(index)
 
   def checkAndPut(numCase: Int): Boolean =
-    if grid(numCase).getSymbol == ""  then 
+    if grid(numCase).getSymbol == ""  then
       grid(numCase).setSymbol(currentPlayer.symbol)
       true
       else false
@@ -25,7 +27,7 @@ class TicTacToeModel extends Publisher :
     turn = (turn+1)%2
     publish()
 
-  def getStatus: String =    
+  def getStatus: GameStatus =
     val isGridFull  = !grid.exists(c => c.getSymbol == "")
     val gridSymbol = grid.map(_.getSymbol).sliding(3,3).toArray
     val isSameSymbolHorizontal = gridSymbol.map(_.count(_ == currentPlayer.symbol)).contains(3)
@@ -33,9 +35,10 @@ class TicTacToeModel extends Publisher :
     val isSameSymbolDiagonal1 = currentPlayer.symbol == gridSymbol(0)(0) && currentPlayer.symbol == gridSymbol(1)(1) && currentPlayer.symbol == gridSymbol(2)(2)
     val isSameSymbolDiagonal2 = currentPlayer.symbol == gridSymbol(0)(2) && currentPlayer.symbol == gridSymbol(1)(1) && currentPlayer.symbol == gridSymbol(2)(0)
     val hasAWinner = isSameSymbolHorizontal || isSameSymbolVertical || isSameSymbolDiagonal1 || isSameSymbolDiagonal2
-    if hasAWinner then currentPlayer.symbol
-    else if !hasAWinner && isGridFull then  "."
-    else "_"    
-  end getStatus  
+
+    if hasAWinner then if currentPlayer.symbol == "X" then X_WIN else O_WIN
+    else if !hasAWinner && isGridFull then TIE
+    else NOT_FINISH
+  end getStatus
 end TicTacToeModel
 

@@ -1,15 +1,17 @@
 package controler
 
-import model.TicTacToeModel
+import model.{GameStatus, TicTacToeModel}
+import model.GameStatus.*
 
 import java.awt.event.{ActionEvent, ActionListener}
 import javax.swing.JOptionPane
 
 class GridController(model : TicTacToeModel) extends ActionListener:
-  private def handleGameEnd(result : String) : Unit = 
+  private def handleGameEnd(result : GameStatus) : Unit = 
     val message = result match 
-      case player@("X" | "O") => s"$player gagne"
-      case "." => "match nul"
+      case X_WIN => "X gagne"
+      case O_WIN => "O gagne"
+      case TIE => "match nul"
       case _ => throw  new IllegalArgumentException("must be X O or .")
     
     JOptionPane.showMessageDialog(null,message,"resultat",JOptionPane.INFORMATION_MESSAGE)
@@ -22,6 +24,6 @@ class GridController(model : TicTacToeModel) extends ActionListener:
         if canChangeTurn then 
           val status = model.getStatus
           status match 
-            case result@("X"| "O" | ".") => handleGameEnd(result)
-            case _ => model.changeTurn()
+            case result@(X_WIN|O_WIN | TIE) => handleGameEnd(result)
+            case NOT_FINISH => model.changeTurn()
           
