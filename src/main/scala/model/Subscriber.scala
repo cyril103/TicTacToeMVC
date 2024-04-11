@@ -1,5 +1,5 @@
 package model
 
-trait Subscriber {
+trait Subscriber:
   def handler(publisher: Publisher): Unit
-}
+

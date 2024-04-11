@@ -2,12 +2,9 @@ package gui
 
 import javax.swing.SwingUtilities
 
-object Main {
+object Main:
+     def main(args: Array[String]): Unit = 
+        SwingUtilities.invokeLater(new MainWindow)
+  
 
-  def main(args: Array[String]): Unit = {
 
-    SwingUtilities.invokeLater(new MainWindow)
-
-  }
-
-}

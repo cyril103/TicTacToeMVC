@@ -7,9 +7,9 @@ import view.{CurrentPlayerView, GridView}
 import java.awt.{BorderLayout, Dimension}
 import javax.swing.{JButton, JFrame, WindowConstants}
 
-class MainWindow extends Runnable{
+class MainWindow extends Runnable:
 
-  override def run(): Unit = {
+  override def run(): Unit =
     val model = new TicTacToeModel
     val gridView = new GridView
     val gridController = new GridController(model)
@@ -31,5 +31,4 @@ class MainWindow extends Runnable{
     table.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE)
     table.pack()
     table.setVisible(true)
-  }
-}
+

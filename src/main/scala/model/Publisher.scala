@@ -2,7 +2,7 @@ package model
 
 import scala.language.postfixOps
 
-trait Publisher {
+trait Publisher :
   private var subscribers: Set[Subscriber] = Set()
 
   def subscribe(subscriber: Subscriber) : Unit =
@@ -13,5 +13,7 @@ trait Publisher {
 
   def publish(): Unit =
     subscribers.foreach(_.handler(this))
+    
+end Publisher
 
-}
+
