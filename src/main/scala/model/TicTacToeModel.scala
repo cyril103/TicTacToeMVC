@@ -5,7 +5,7 @@ import model.GameStatus.*
 class TicTacToeModel extends Publisher :
   private var turn = 0
 
-  private val players: Array[Player] = Array(HumanPlayer("X"),HumanPlayer("O"))
+  private val players: Array[Player] = Array(Player.Human("X"),Player.Human("O"))
   private val grid: Array[CaseModel] = Array.tabulate(9)(i => new CaseModel(i))
 
   def currentPlayer: Player =

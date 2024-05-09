@@ -1,7 +1,8 @@
 package model
 
-sealed trait Player:
+enum Player:
   def symbol : String
+  case Human(symbol: String)
+  case Bot(symbol: String)
 
-case class  HumanPlayer(symbol : String) extends Player
-case class  BotPlayer(symbol: String) extends Player
+
