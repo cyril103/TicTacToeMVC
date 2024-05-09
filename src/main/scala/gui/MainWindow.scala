@@ -14,7 +14,7 @@ class MainWindow extends Runnable:
     val gridView = new GridView
     val gridController = new GridController(model)
     (0 to 8).foreach { i =>
-      model.getCase(i).subscribe(gridView.getCaseAtIndex(i))
+      model.getBox(i).subscribe(gridView.getCaseAtIndex(i))
       gridView.getCaseAtIndex(i).addActionListener(gridController)
     }
     val controllerMenu = new ControlerMenu(model)

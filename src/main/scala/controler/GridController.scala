@@ -18,7 +18,9 @@ class GridController(model : TicTacToeModel) extends ActionListener:
     model.init()
 
   override def actionPerformed(e: ActionEvent): Unit = 
-    if model.checkAndPut(e.getActionCommand.toInt) then
+    val index = e.getActionCommand.toInt
+    if model.boxIsEmpty(index) then
+      model.put(index)
       model.getStatus match
       case result@(X_WIN | O_WIN | TIE) => handleGameEnd(result)
       case NOT_FINISH => model.changeTurn()

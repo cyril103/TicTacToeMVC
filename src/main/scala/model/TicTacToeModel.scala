@@ -15,13 +15,11 @@ class TicTacToeModel extends Publisher :
     turn = 0
     grid.foreach(_.setSymbol(""))
 
-  def getCase(index : Int): CaseModel = grid(index)
+  def getBox(index : Int): CaseModel = grid(index)
 
-  def checkAndPut(numCase: Int): Boolean =
-    if grid(numCase).getSymbol == ""  then
-      grid(numCase).setSymbol(currentPlayer.symbol)
-      true
-      else false
+  def boxIsEmpty(index : Int): Boolean = grid(index).isEmpty
+
+  def put(index: Int): Unit = grid(index).setSymbol(currentPlayer.symbol)
 
   def changeTurn() : Unit =
     turn = (turn+1)%2
@@ -35,10 +33,12 @@ class TicTacToeModel extends Publisher :
     val isSameSymbolDiagonal1 = currentPlayer.symbol == gridSymbol(0)(0) && currentPlayer.symbol == gridSymbol(1)(1) && currentPlayer.symbol == gridSymbol(2)(2)
     val isSameSymbolDiagonal2 = currentPlayer.symbol == gridSymbol(0)(2) && currentPlayer.symbol == gridSymbol(1)(1) && currentPlayer.symbol == gridSymbol(2)(0)
     val hasAWinner = isSameSymbolHorizontal || isSameSymbolVertical || isSameSymbolDiagonal1 || isSameSymbolDiagonal2
+    
+    if hasAWinner then
+      if currentPlayer.symbol == "X" then X_WIN else O_WIN
+    else
+      if isGridFull then TIE else NOT_FINISH
 
-    if hasAWinner then if currentPlayer.symbol == "X" then X_WIN else O_WIN
-    else if !hasAWinner && isGridFull then TIE
-    else NOT_FINISH
   end getStatus
 end TicTacToeModel
 
